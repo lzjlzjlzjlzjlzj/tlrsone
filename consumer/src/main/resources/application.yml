@@ -6,7 +6,7 @@ spring:
   zipkin:
     base-url: http://localhost:9411
   datasource:
-    url: jdbc:mysql://localhost:3306/tlrs?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://39.100.149.98:3306/tlrs?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
