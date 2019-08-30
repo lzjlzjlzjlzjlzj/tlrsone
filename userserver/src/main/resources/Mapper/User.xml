@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.User">
+    <select id="FindZh" resultType="map" parameterType="string">
+        select id,pwd from user where name=#{name}
+    </select>
+    <sql id="user">
+        id,name,nickname,px,qm,money,gold,vip,care,becare,background,head,tlpx
+    </sql>
+    <select id="FindCallery" resultType="Map" parameterType="Map">
+        select * from callery inner join user on callery.from=user.id where callery.id not in(select calleryid from calleryhistory where userid=#{userid}) limit #{from},#{to}
+    </select>
+    <select id="Maxpage" resultType="int" parameterType="int">
+         select count(*) from callery inner join user on callery.from=user.id where callery.id not in(select calleryid from calleryhistory where userid=#{userid})
+    </select>
+    <select id="FindComment" resultType="Map" parameterType="int">
+        SELECT * FROM COMMENT INNER JOIN USER ON comment.`uesrid`=user.`id` where calleryid=#{calleryid}
+    </select>
+
+    <select id="FindCommentback" resultType="Map" parameterType="int">
+        select * from commentback inner join user on commentback.fromuserid=user.id where commentid=#{commentid}
+    </select>
+
+    <select id="FindUser" resultType="Map" parameterType="int">
+        select * from USER where id=#{id}
+    </select>
+
+    <select id="FindCalleryinfo" resultType="Map" parameterType="int">
+        select * from calleryinfo where calleryid=#{calleryid}
+    </select>
+
+    <select id="FindgetNum" resultType="int" parameterType="int">
+        select count(*) from commentgetnice where commentid=#{id}
+    </select>
+
+    <select id="FindgetNum2" resultType="int" parameterType="int">
+        select count(*) from commentbackgetnice where commentbackid=#{id}
+    </select>
+
+    <select id="FindgetN" resultType="int" parameterType="int">
+        select count(*) from callerygetnice where callery=#{id}
+    </select>
+
+    <insert id="Dz" parameterType="Map">
+        insert into callerygetnice values (#{calleryid},#{userid},#{time})
+    </insert>
+
+    <select id="UserInfo" resultType="Map" parameterType="int">
+        select <include refid="user"></include> from user where id=#{userid}
+    </select>
+
+    <select id="SerachZh" resultType="Map" parameterType="string">
+        select <include refid="user"></include> from user where  name=#{zh}
+    </select>
+
+    <insert id="AddSystem"  parameterType="Map">
+        insert into systemmessage(touserid,message,time ) values(#{touserid},#{message},#{time})
+    </insert>
+
+    <select id="FindSysmsg" resultType="map" parameterType="int">
+        select * from sysmsg where id=#{id}
+    </select>
+
+    <select id="FindUserok" resultType="int" parameterType="string">
+        select count(*) from systemmessage where touserid=#{userid} and message=1
+    </select>
+    <sql id="sql1">
+      touserid,sysmsg.message,time
+    </sql>
+    <select id="FindAllsys" resultType="map" parameterType="string">
+        select <include refid="sql1"></include> from systemmessage inner join sysmsg on systemmessage.message=sysmsg.id where systemmessage.touserid=#{userid}
+    </select>
+
+    <select id="FindAllbq" resultType="map">
+        select * from bq
+    </select>
+
+    <insert id="AddMessage" parameterType="map">
+        insert into usermessage(fromid,touserid,message,time ,statu) values (#{userid},#{touserid},#{message},#{time},0)
+    </insert>
+    <insert id="AddLoginKey" parameterType="map">
+        insert into loginstatu(zh,loginkey) values (#{zh},#{loginkey})
+    </insert>
+    <select id="FindLoginKey" resultType="string" parameterType="string">
+        select zh from loginstatu where loginkey=#{loginkey}
+    </select>
+</mapper>

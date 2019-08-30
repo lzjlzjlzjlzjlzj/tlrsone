@@ -1,0 +1,28 @@
+server:
+  port: 2001
+spring:
+  application:
+    name: userserver
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlrs?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  #mybatis:
+   # mapper-locations: classpath:Mapper/*.xml
+    #type-aliases-package: com.exam.user.mapper
+  #pagehelper
+  pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    returnPageInfo: check
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/eureka
+mybatis:
+  mapper-locations: classpath:Mapper/*.xml
+  type-aliases-package: com.mapper

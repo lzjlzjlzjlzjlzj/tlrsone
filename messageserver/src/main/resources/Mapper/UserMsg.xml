@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.UserMsg">
+    <insert id="AddMessage" parameterType="map">
+        insert into usermessage(fromid,touserid,message,time ,statu) values (#{userid},#{touserid},#{message},#{time},0)
+    </insert>
+    <select id="FindMessage" resultType="map" parameterType="int">
+        select * from usermessage where  fromid=#{fromid}
+    </select>
+    <select id="FindLastMessage" resultType="map" parameterType="int">
+        select * from message where touserid=#{userid} group by fromid
+    </select>
+    <select id="FindMessagehistroy" resultType="int" parameterType="int">
+        select count(*) from msghistory where userid=#{userid}
+    </select>
+    <insert id="AddMessagehistroy" parameterType="map">
+        insert into msghistory(userid,message) values(#{userid},#{message})
+    </insert>
+    <update id="UpdateMessagehistroy" parameterType="string">
+        update msghistory set message=#{message}
+    </update>
+    <select id="FindMessagehistory" resultType="string" parameterType="int">
+        select message from msghistory where userid=#{userid}
+    </select>
+    <select id="FindUsermessagexq" resultType="int" parameterType="map">
+        select count(*) from usermessagexq where userid=#{userid} and touserid=#{touserid}
+    </select>
+    <insert id="AddUsermessagexq" parameterType="map">
+        insert into usermessagexq(userid,touserid,message) values (#{userid},#{touserid},#{message})
+    </insert>
+    <update id="UpdateUsermessagexq" parameterType="map">
+        update usermessagexq set message=#{message} where userid=#{userid} and touserid=#{touserid}
+    </update>
+    <select id="Usermessagexq" resultType="string" parameterType="map">
+        select message from usermessagexq where userid=#{userid} and touserid=#{touserid}
+    </select>
+    <select id="AddNew">
+        select * from user where wq=w
+    </select>
+</mapper>
